@@ -1,0 +1,24 @@
+Add custom info to Additional Information product tab
+add_filter( 'woocommerce_product_tabs', 'woo_rename_tabs', 98 );
+function woo_rename_tabs( $tabs ) {
+    global $product;
+    $tabs['additional_information']['callback'] = 'add_info_function'; // this is the function name which is included below
+    return $tabs;
+}
+function add_info_function(){
+
+    global $product, $productweight, $productdimensions;
+    $attributes = $product->get_attributes();
+    
+    if ( $product->has_weight() ) {
+    	$prodweight = $product->get_weight();
+    }
+
+    if ( $product->has_dimensions() ) {
+    	$productdimensions = wc_format_dimensions($product->get_dimensions(false));
+    }
+    // echo 'New Content Here'; //add anything you want to show before the default tab content
+
+	woocommerce_product_additional_information_tab(); // This function calls  wc_get_template( 'single-product/tabs/additional-information.php' );
+    //add anything you want to show after the default tab content
+}
