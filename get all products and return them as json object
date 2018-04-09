@@ -1,0 +1,21 @@
+function get_all_products(){
+	
+	$reponseObject = [];
+
+	$query = new WC_Product_Query( array(
+		'limit' => 10,
+		'orderby' => 'date',
+		'order' => 'DESC',
+		// 'return' => 'ids',
+	) );
+	
+	$products = $query->get_products();
+	
+	foreach ($products as $product) {
+		$reponseObject[] = $product->get_data();
+	}
+	
+	wp_send_json($reponseObject);
+    
+    wp_die();
+}
